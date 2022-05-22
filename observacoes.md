@@ -1,0 +1,7 @@
+ - Filhas de Cliente só tem um método?
+ - OK para esta herança, mas hoje temos alternativas
+ - Historico de Compra não tem parâmetro?
+ - Cadastrar cliente no Cliente??
+ - idCliente na Compra? Não seria o Cliente? (ou melhor ainda: nem precisa ter o cliente, já que o cliente pode ter suas compras)
+ - Categoria não tem métodos?
+ - Como categoria faz a diferença de regras? **não pode ser** por uma string... 
