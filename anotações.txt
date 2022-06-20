@@ -1,0 +1,68 @@
+---------------------------------------------------------------------------------------------------------------------------------------------------------------
+======================================================================Anotações================================================================================
+---------------------------------------------------------------------------------------------------------------------------------------------------------------
+Cliente(nome, nome de usuário e senha) -> Cadastrados, empolgados e fanáticos.
+
+Jogo pertence a uma categoria(afeta o cálculo do preço de venda do jogo...)
+Categoria -> lançamentos, premium, regulares e promoções.
+
+JOGOS
+Lançamentos - Vendidos com adicional de 10% ao preço original
+Premium - Vendidos pelo preço original
+Regulares - Vendidos por um valor entre 70 e 100% do preço original
+Promoções - Vendidos por um valor entre 30 e 50% do preço original
+
+Clientes cadastrados - Fazem compras ocasionais e eventualmente recebem e-mails comunicando promoções e outras novidades...
+Cliente empolgados - Pagam uma mensalidade de R$10 e com isso obtêm um desconto de 10% em cada compra realizada...
+Clientes fanáticos - Pagam uma mensalidade de R$25 e com isso obtêm um desconto de 30% em cada compra realizada...
+
+Compra - Aquisição de 1 ou * jogos...
+Valor pago(com descontos) segue uma regra de desconto com base nas categorias dos jogos comprados...
+
+• Contém dois ou mais lançamentos
+• Contém dois premium e mais um jogo
+• Contém três premium                         Desconto de 20% do preço da compra
+• Contém três regulares e um acima
+• Contém cinco regulares
+
+• Contém dois premium                         Desconto de 10% do preço da compra
+• Contém quatro regulares
+
+Regular = 1
+Premium = 2
+Lançamento = 3
+Promoções = 0 (É acima de regular?) Se for acima funciona 4 regulares + 1 Promoções, então valor de Promoções = 1 também
+Acima de 4 = 20% | igual = 10% | abaixo = 0%
+Mais um jogo(Pode ser promoção?)
+
+Cliente tem acesso a histórico de compras...
+Podendo Filtrar por categoria dos jogos e Data da compra(No caso o filtro por categoria, retornaria apenas compras que possuíssem jogos daquelas categorias? ou Somente compras com jogos daquelas categorias e mais nenhuma?)
+
+Valor mensalVendido(Valor pago de todas as compras do mês...), Valor médio de todas as compras(soma todos os valores pagos e divide pela quantidade...), 
+Jogos mais vendidos e Menos vendidos...(Criar atributos de NumeroTotalvendas na classe Jogos?)
+
+Classe Empresa que Salva dados das Compras e Pedidos ao finalizar a aplicação.
+---------------------------------------------------------------------------------------------------------------------------------------------------------------
+======================================================================Dúvidas==================================================================================
+---------------------------------------------------------------------------------------------------------------------------------------------------------------
+Precisa de todos os get/Set?
+Nos relatório de vendas da empresa, precisa saber o cliente de cada venda?
+Como fica a senha/login e mensalidades?
+---------------------------------------------------------------------------
+Fazer teste para cada um 
+Se mudar o tipo do jogo, oque acontece?
+Se mudar o valor do jogo, não deve refletir em compras passadas?
+---------------------------------------------------------------------------
+Podendo Filtrar por categoria dos jogos e Data da compra(No caso o filtro por categoria, retornaria apenas compras que possuíssem jogos daquelas categorias? 
+ou Somente compras com jogos daquelas categorias e mais nenhuma?)
+---------------------------------------------------------------------------
+Promoções = 0 (É acima de regular?) Se for acima funciona 4 regulares + 1 Promoções, então valor de Promoções = 1 também (• Contém dois premium e mais um jogo)
+---------------------------------------------------------------------------
+Valor mensalVendido(Valor pago de todas as compras do mês...) - A pessoa seleciona o mês ou pode ser sempre o mês atual? (PrecoVenda ou PrecoPago?)
+---------------------------------------------------------------------------
+Valor médio de todas as compras(Valor pago de todas as compras do mês...) - (PrecoVenda ou PrecoPago?)
+---------------------------------------------------------------------------
+Jogos mais vendidos e Menos vendidos...(Criar atributos de NumeroTotalvendas na classe Jogos?) É correto?
+---------------------------------------------------------------------------
+Tinha que ser CRUD completo?
+---------------------------------------------------------------------------------------------------------------------------------------------------------------
