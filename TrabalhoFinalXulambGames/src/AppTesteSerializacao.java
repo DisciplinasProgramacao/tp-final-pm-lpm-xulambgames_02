@@ -1,6 +1,6 @@
 import java.time.LocalDate;
 
-public class AppTeste {
+public class AppTesteSerializacao {
     // Nomes dos arquivos binários
     static String arqCompra = "compra.bin";
     static String arqCliente = "cliente.bin";
@@ -28,7 +28,7 @@ public class AppTeste {
         Jogo jogo1 = new Jogo("Jogo1", "Jogo1 é brabo", 100.00, Categoria.Regulares);
         Jogo jogo2 = new Jogo("Jogo2", "Jogo2 é brabo", 200.00, Categoria.Lancamentos);
         Jogo jogo3 = new Jogo("Jogo3", "Jogo3 é brabo", 150.00, Categoria.Premium);
-        Jogo jogo4 = new Jogo("Jogo4", "Jogo4 é brabo", 50.00, Categoria.Promoções);
+        Jogo jogo4 = new Jogo("Jogo4", "Jogo4 é brabo", 50.00, Categoria.Promocoes);
 
         // Compras/Vendas
         Compra compra1 = new Compra(LocalDate.now());

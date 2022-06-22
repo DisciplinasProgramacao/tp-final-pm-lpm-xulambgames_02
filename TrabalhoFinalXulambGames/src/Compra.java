@@ -17,8 +17,8 @@ public class Compra implements Serializable {
 
     // Functions
     private double calcularDescontoJogos() {
-        int totalCalculoBase = this.jogos.stream().mapToInt((j) -> j.getCategoria().getValorCalculoBase()).sum();
-        System.out.println(totalCalculoBase); // Debug
+        double totalCalculoBase = this.jogos.stream().mapToDouble((j) -> j.getCategoria().getValorCalculoBase()).sum();
+        System.out.println("Cálculo base Jogos: " + totalCalculoBase); // Debug
 
         if (totalCalculoBase > 4) {
             return 0.2;
@@ -34,8 +34,11 @@ public class Compra implements Serializable {
          * Calcula o novo precoVenda com os descontos(descontoJogosCategoria +
          * desconto do tipo de cliente)
          */
-        this.precoPago = this.precoVenda
-                - this.precoVenda * (cliente.calcularDesconto() + this.calcularDescontoJogos());
+        double descontoCompra = this.precoVenda - this.precoVenda * this.calcularDescontoJogos(); // Calcula o desconto
+                                                                                                  // da compra
+
+        this.precoPago = descontoCompra - descontoCompra * cliente.calcularDesconto(); // Calcula o desconto do cliente
+                                                                                       // após o desconto da compra
     }
 
     public void adicionarJogo(Jogo jogo) {
@@ -44,12 +47,28 @@ public class Compra implements Serializable {
          * Soma o valor do jogo na precoVenda. Já inclui o novo preco do jogo com o
          * valor da categoria.
          */
-        this.precoVenda += jogo.calcularPrecoVenda();
+        this.precoVenda += jogo.getPrecoAtual();
     }
 
     public void removerJogo(Jogo jogo) {
-        // Não está sendo utilizado...
-        this.jogos.remove(jogo); // Remove todas as ocorrencias?
+        this.jogos.remove(jogo);
+    }
+
+    // Getters
+    public ArrayList<Jogo> getJogos() {
+        return this.jogos;
+    }
+
+    public LocalDate getDataCompra() {
+        return this.dataCompra;
+    }
+
+    public double getPrecoVenda() {
+        return this.precoVenda;
+    }
+
+    public double getPrecoPago() {
+        return this.precoPago;
     }
 
     // Auxiliar nos testes
@@ -68,22 +87,5 @@ public class Compra implements Serializable {
         });
 
         return retorno.toString();
-    }
-
-    // Getters
-    public ArrayList<Jogo> getJogos() {
-        return this.jogos;
-    }
-
-    public LocalDate getDataCompra() {
-        return this.dataCompra;
-    }
-
-    public double getPrecoVenda() {
-        return this.precoVenda;
-    }
-
-    public double getPrecoPago() {
-        return this.precoPago;
     }
 }

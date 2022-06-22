@@ -8,9 +8,9 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 
 public class Sistema {
-    private String nome; // Não está sendo utilizado...
-    private String endereco; // Não está sendo utilizado...
-    private ArrayList<Object> totalVendas;
+    private String nome;
+    private String endereco;
+    private ArrayList<Object> totalVendas; // Como utilizar sem o Object
     private ArrayList<Object> totalClientes;
     private ArrayList<Object> totalJogos;
 
@@ -23,13 +23,13 @@ public class Sistema {
     }
 
     // Functions
-    public void valorMensalVendido() { // Pega o mês atual ou Informa o mês?(PrecoVenda ou PrecoPago?)
+    public void valorMensalVendido() {
         LocalDate atual = LocalDate.now();
         Double valorTotal = this.totalVendas.stream().filter((v) -> ((Compra) v)
                 .getDataCompra()
                 .getMonth() == atual.getMonth())
                 .mapToDouble((v) -> ((Compra) v)
-                        .getPrecoVenda())
+                        .getPrecoPago())
                 .sum();
 
         System.out.println("\033[1;34mValor mensal vendido");
@@ -37,11 +37,11 @@ public class Sistema {
         System.out.println("R$" + valorTotal);
     }
 
-    public void valorMedioCompras() { // (PrecoVenda ou PrecoPago?)
+    public void valorMedioCompras() {
         double valorTotal = this.totalVendas.stream().mapToDouble((v) -> ((Compra) v)
-                .getPrecoVenda())
+                .getPrecoPago())
                 .average()
-                .getAsDouble();
+                .orElse(0.0);
 
         System.out.println("\033[1;34mValor Médio Compras");
         System.out.println("======================");
@@ -70,8 +70,11 @@ public class Sistema {
 
         System.out.println("\033[1;34mJogos Extremos");
         System.out.println("======================");
-        System.out.println("Mais Vendido: " + jogoMaisVendido.getNome());
-        System.out.println("Menos Vendido: " + jogoMenosVendido.getNome());
+        if (jogoMaisVendido != null && jogoMenosVendido != null) {
+            System.out.println("Mais Vendido: " + jogoMaisVendido.getNome());
+            System.out.println("Menos Vendido: " + jogoMenosVendido.getNome());
+        } else
+            System.out.println("Sistema sem compras!");
     }
 
     /**
@@ -80,7 +83,8 @@ public class Sistema {
      * @param frota Lista com os objetos
      * @param arq   Nome do arquivo a ser gerado
      */
-    public void salvarBinario(ArrayList<Object> lista, String arq) {
+    public void salvarBinario(ArrayList<Object> lista, String arq) { // Utilizar sem o Object(Recebe uma lista<T> como
+                                                                     // parâmetro ou receber lista<Serializable>)
         ObjectOutputStream saida = null;
         try {
             saida = new ObjectOutputStream(new FileOutputStream(arq));
@@ -102,15 +106,15 @@ public class Sistema {
      * @return Uma lista genérica com a classe do arquivo passado como parâmetro.
      *         A lista pode estar vazia ou nula em caso de exceções.
      */
-    public ArrayList<Object> carregarBinario(String arq) {
-        ArrayList<Object> lista = null;
+    public <T> ArrayList<T> carregarBinario(String arq) { // retornar arraylist<Serializable>
+        ArrayList<T> lista = null;
 
         try {
             ObjectInputStream entrada = new ObjectInputStream(new FileInputStream(arq));
-            lista = (ArrayList<Object>) entrada.readObject();
+            lista = (ArrayList<T>) entrada.readObject();
             entrada.close();
         } catch (FileNotFoundException fe) {
-            lista = new ArrayList<Object>();
+            lista = new ArrayList<T>();
         } catch (ClassNotFoundException ce) {
             System.out.println("\033[1;31mProblema na conversão dos dados: classe inválida. Contacte o suporte.");
         } catch (IOException ie) {

@@ -28,7 +28,7 @@ public class App {
 
     public static int menu(Scanner teclado) {
         limparTela();
-        System.out.println("XULAMB GAMES");
+        System.out.println("\033[1;32mXULAMB GAMES");
         System.out.println("=================================================");
         System.out.println("1 - Cadastrar Cliente");
         System.out.println("2 - Cadastrar Jogo");
@@ -37,6 +37,7 @@ public class App {
         System.out.println("5 - Valor Médio das Compras(Total)");
         System.out.println("6 - Jogos Extremos(Mais vendido e Menos Vendido)");
         System.out.println("7 - Histórico Cliente");
+        System.out.println("8 - Alterar categoria e preço atual do Jogo");
         System.out.println("0 - Sair");
         int opcao = 0;
         try {
@@ -67,7 +68,6 @@ public class App {
      * @param xulambgames Objeto do sistema global
      */
     public static void cadastrarCliente(Scanner teclado, Sistema xulambgames) {
-        // Verificar se o nomeUsuario existe (Fazer isso depois)
         System.out.println("Digite o nome do usuario: ");
         String nomeUsuario = teclado.nextLine();
 
@@ -124,8 +124,6 @@ public class App {
      * @param xulambgames Objeto do sistema global
      */
     public static void cadastrarJogo(Scanner teclado, Sistema xulambgames) {
-        // Verificar se o nomeJogo existe (Fazer isso depois) e não cadastrar valores
-        // vazios...
         System.out.println("Digite o nome do jogo: ");
         String nomeJogo = teclado.nextLine();
 
@@ -161,7 +159,7 @@ public class App {
                     break;
 
                 case 4:
-                    categoria = Categoria.Promoções;
+                    categoria = Categoria.Promocoes;
                     break;
 
                 default:
@@ -204,12 +202,12 @@ public class App {
                 .orElse(null);
 
         if (cliente != null) {
-            System.out.println("\033[1;32mCliente selecionado!");
-            System.out.println(cliente.toString());
+            limparTela();
 
             int contadorJogos = 0;
             while (true) {
-                System.out.println("Digite o nome do jogo: (Opções abaixo) | Para finalizar a compra digite 0");
+                System.out
+                        .println("\033[1;32mDigite o nome do jogo: (Opções abaixo) | Para finalizar a compra digite 0");
                 jogos.forEach((j) -> System.out.println(j.toString()));
 
                 String nomeJogo = teclado.nextLine();
@@ -229,12 +227,14 @@ public class App {
                     if (jogo != null) {
                         compra.adicionarJogo(jogo);
 
+                        // Isso é ruim(Fazer com stream utilizar sugestão do Hugo)
                         jogo.setQuantidadeVendaTotal(); // Aumenta número de vendas, para saber mais e menos vendidos
                         xulambgames.removeTotalJogos(jogo.getNome());// Atualiza o objeto na lista de jogos
                         xulambgames.addTotalJogos(jogo);
 
                         limparTela();
                         contadorJogos++;
+                        System.out.println("\033[1;34mJogo adicionado com sucesso!");
                     } else {
                         System.out.println("\033[1;31mJogo não encontrado!");
                     }
@@ -304,7 +304,7 @@ public class App {
                                 break;
 
                             case 4:
-                                categoria = Categoria.Promoções;
+                                categoria = Categoria.Promocoes;
                                 break;
 
                             default:
@@ -329,6 +329,79 @@ public class App {
                 teclado.nextLine();
                 System.out.println("\033[1;31mSomente opções numéricas.");
             }
+        } else
+            System.out.println("\033[1;31mCliente não encontrado!");
+    }
+
+    /**
+     * Método que altera a categoria e o preço atual do jogo
+     * 
+     * @param teclado     Scanner de leitura
+     * @param xulambgames Objeto do sistema global
+     */
+    public static void alterarJogo(Scanner teclado, Sistema xulambgames) {
+        ArrayList<Object> jogos = xulambgames.getTotalJogos();
+
+        System.out.println("Digite o nome do jogo: (Opções abaixo)");
+        jogos.forEach((j) -> System.out.println(j.toString()));
+
+        String nomeJogo = teclado.nextLine();
+        // Filtra o Arraylist de Clientes pelo nome e retorna o primeiro elemento
+        Jogo jogo = (Jogo) jogos.stream()
+                .filter((j) -> ((Jogo) j)
+                        .getNome()
+                        .equals(nomeJogo))
+                .findFirst()
+                .orElse(null); // Altera a referência do jogo no arrayList global(verificar se funciona)
+
+        if (jogo != null) {
+            limparTela();
+
+            try {
+                // Retorna o ENUM com oque foi selecionado
+                System.out.println("Selecione a nova categoria do jogo:");
+                System.out.println("=================================================");
+                System.out.println("1 - Lancamentos");
+                System.out.println("2 - Premium");
+                System.out.println("3 - Regulares");
+                System.out.println("4 - Promoções");
+                int tipoJogo = teclado.nextInt();
+                teclado.nextLine();
+
+                Categoria categoria;
+                switch (tipoJogo) {
+                    case 1:
+                        categoria = Categoria.Lancamentos;
+                        break;
+
+                    case 2:
+                        categoria = Categoria.Premium;
+                        break;
+
+                    case 3:
+                        categoria = Categoria.Regulares;
+                        break;
+
+                    case 4:
+                        categoria = Categoria.Promocoes;
+                        break;
+
+                    default:
+                        categoria = null;
+                        System.out.println("Opção inválida!");
+                        break;
+                }
+
+                System.out.println("Digite o novo valor do jogo: ");
+                double precoJogo = teclado.nextDouble();
+                teclado.nextLine();
+
+                jogo.alterarCategoria(categoria, precoJogo); // Validar opção inválida
+            } catch (InputMismatchException ex) {
+                teclado.nextLine();
+                System.out.println("\033[1;31mSomente opções numéricas.");
+            }
+            // xulambgames.addTotalVendas(compra);
         } else
             System.out.println("\033[1;31mCliente não encontrado!");
     }
@@ -368,8 +441,6 @@ public class App {
                     break;
 
                 case 3:
-                    // Pedir nomeUsuario e senha para quando for cadastrar venda/consultar
-                    // histórico(Talvez?)
                     cadastrarVenda(teclado, xulambgames);
                     break;
 
@@ -383,9 +454,10 @@ public class App {
                     xulambgames.jogosExtremos();
                     break;
                 case 7:
-                    // Pedir nomeUsuario e senha para quando for cadastrar venda/consultar
-                    // histórico(Talvez?)
                     historicoCliente(teclado, xulambgames);
+                    break;
+                case 8:
+                    alterarJogo(teclado, xulambgames);
                     break;
 
                 default:
@@ -398,12 +470,9 @@ public class App {
 
         /**
          * Após o fim da aplicação, salvar os dados de compras, clientes e jogos
-         * (Maneiras melhores de fazer isso?)
          */
-        xulambgames.salvarBinario(xulambgames.getTotalVendas(), arqCompra); // Passar apenas o nome do arquivo como
-                                                                            // parâmetro?
+        xulambgames.salvarBinario(xulambgames.getTotalVendas(), arqCompra);
         xulambgames.salvarBinario(xulambgames.getTotalClientes(), arqCliente);
         xulambgames.salvarBinario(xulambgames.getTotalJogos(), arqJogo);
-        xulambgames.getTotalVendas().forEach((n) -> System.out.println(n.toString())); // Validação de clientes
     }
 }

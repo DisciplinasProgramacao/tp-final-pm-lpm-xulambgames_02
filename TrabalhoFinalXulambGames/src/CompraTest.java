@@ -22,7 +22,7 @@ public class CompraTest {
         jogo1 = new Jogo("Jogo1", "Jogo1 é brabo", 100.00, Categoria.Regulares);
         jogo2 = new Jogo("Jogo2", "Jogo2 é brabo", 200.00, Categoria.Lancamentos);
         jogo3 = new Jogo("Jogo3", "Jogo3 é brabo", 150.00, Categoria.Premium);
-        jogo4 = new Jogo("Jogo4", "Jogo4 é brabo", 50.00, Categoria.Promoções);
+        jogo4 = new Jogo("Jogo4", "Jogo4 é brabo", 50.00, Categoria.Promocoes);
 
         compra = new Compra(LocalDate.now());
 
@@ -31,99 +31,324 @@ public class CompraTest {
         cliente3 = new Cadastrado("Ana", "Ana3", "123", "ana@gmail.com");
     }
 
-    // #region Testes Valor Nova Compra(Preço pago e Preço venda)
+    // #region Testes Valor Nova Compra(Preço pago) - Condições de desconto
 
     /**
-     * Jogo regular 85% do preço original
-     * Cliente empolgado 10% de desconto no preço de venda
+     * Cliente Cadastrado
      * 
-     * Jogo1 = R$100.00 | Desconto jogo regular(85%) | Jogo1 = R$85.00
+     * Contém três regulares (Jogo1 = 100)
+     * 100 * 3 = 300
      * 
-     * Jogo1 * 2 = R$170.00 (Preço de venda)
-     * 
-     * Como é apenas 2 regulares não tem desconto...
-     * 
-     * R$170.00 * 10% de Desconto = R$153.00 (Preço pago)
+     * Não possui nenhum desconto = 300
      */
     @Test
-    public void testEmpolgadoRegularPrecoVenda() {
+    public void testCadastradoTresRegularesPrecoPago() {
         compra.adicionarJogo(jogo1);
         compra.adicionarJogo(jogo1);
-        cliente1.adicionarCompra(compra);
-        assertEquals(170, compra.getPrecoVenda(), 0.1);
-    }
-
-    @Test
-    public void testEmpolgadoRegularPrecoPago() {
         compra.adicionarJogo(jogo1);
-        compra.adicionarJogo(jogo1);
-        compra.calcularPrecoPago(cliente1);
-        cliente1.adicionarCompra(compra);
-        assertEquals(153, compra.getPrecoPago(), 0.1);
-    }
+        // compra.adicionarJogo((Jogo)jogo1.clone());
+        // Passar copia do jogo e não o jogo em si,depois validar se há alteração
+        // do valor da venda
 
-    /**
-     * Jogo lançamento 110% do preço original
-     * Cliente fanático 30% de desconto no preço de venda
-     * 
-     * Jogo2 = R$200.00 | Aumento jogo lançamento(10%) | Jogo2 = R$220.00
-     * 
-     * Jogo2 * 2 = R$440.00 (Preço de venda)
-     * 
-     * 2 Lançamentos dão 20% de desconto
-     * 
-     * Desconto dos lançamentos + Desconto do cliente fanático
-     * R$440.00 * 50% de Desconto = R$220.00 (Preço pago)
-     */
-    @Test
-    public void testFanaticoLancamentosPrecoVenda() {
-        compra.adicionarJogo(jogo2);
-        compra.adicionarJogo(jogo2);
-        cliente2.adicionarCompra(compra);
-        assertEquals(440, compra.getPrecoVenda(), 0.1);
-    }
-
-    @Test
-    public void testFanaticoLancamentosPrecoPago() {
-        compra.adicionarJogo(jogo2);
-        compra.adicionarJogo(jogo2);
-        compra.calcularPrecoPago(cliente2);
-        cliente2.adicionarCompra(compra);
-        assertEquals(220, compra.getPrecoPago(), 0.1);
-    }
-
-    /**
-     * Jogo premium 100% do preço original / Sem alteração
-     * Jogo promoções 40% do preço original
-     * Cliente cadastrado 0% de desconto no preço de venda / Sem alteração
-     * 
-     * Jogo3 = R$150.00
-     * Jogo4 = R$50.00 | Desconto jogo lançamento(40%) | Jogo4 = R$30.00
-     * 
-     * Jogo3 * 2 + jogo 4 = R$330.00 (Preço de venda)
-     * 
-     * 2 Premium + 1 promoção da 10% de desconto ou 20% de desconto?
-     * 
-     * Desconto dos lançamentos
-     * R$330.00 * 20% de Desconto = R$264.00 (Preço pago)
-     */
-    @Test
-    public void testCadastradoPremiumPromocoesPrecoVenda() {
-        compra.adicionarJogo(jogo3);
-        compra.adicionarJogo(jogo3);
-        compra.adicionarJogo(jogo4);
         cliente3.adicionarCompra(compra);
-        assertEquals(330, compra.getPrecoVenda(), 0.1);
-    }
-
-    @Test
-    public void testCadastradoPremiumPromocoesPrecoPago() {
-        compra.adicionarJogo(jogo3);
-        compra.adicionarJogo(jogo3);
-        compra.adicionarJogo(jogo4);
         compra.calcularPrecoPago(cliente3);
-        cliente3.adicionarCompra(compra);
-        assertEquals(297, compra.getPrecoPago(), 0.1); // 2 Premium + 1 promoção da 10% de desconto ou 20% de desconto?
+        assertEquals(300, compra.getPrecoPago(), 0.1);
     }
 
+    /**
+     * Cliente Empolgado
+     * 
+     * Contém três regulares (Jogo1 = 100)
+     * 100 * 3 = 300
+     * 
+     * 300 * 0.9 (Empolgado tem 10% de desconto) = 270
+     */
+    @Test
+    public void testEmpolgadoTresRegularesPrecoPago() {
+        compra.adicionarJogo(jogo1);
+        compra.adicionarJogo(jogo1);
+        compra.adicionarJogo(jogo1);
+
+        cliente1.adicionarCompra(compra);
+        compra.calcularPrecoPago(cliente1);
+        assertEquals(270, compra.getPrecoPago(), 0.1);
+    }
+
+    /**
+     * Cliente Fanático
+     * 
+     * Contém três regulares (Jogo1 = 100)
+     * 100 * 3 = 300
+     * 
+     * 300 * 0.7 (Fanático tem 30% de desconto) = 210
+     */
+    @Test
+    public void testFanaticoTresRegularesPrecoPago() {
+        compra.adicionarJogo(jogo1);
+        compra.adicionarJogo(jogo1);
+        compra.adicionarJogo(jogo1);
+
+        cliente2.adicionarCompra(compra);
+        compra.calcularPrecoPago(cliente2);
+        assertEquals(210, compra.getPrecoPago(), 0.1);
+    }
+
+    /**
+     * Cliente Cadastrado
+     * 
+     * Contém 1 premium (jogo3 = 150)
+     * 
+     * Não possui nenhum desconto = 150
+     */
+    @Test
+    public void testCadastradoUmPremiumPrecoPago() {
+        compra.adicionarJogo(jogo3);
+
+        cliente3.adicionarCompra(compra);
+        compra.calcularPrecoPago(cliente3);
+        assertEquals(150, compra.getPrecoPago(), 0.1);
+    }
+
+    /**
+     * Cliente Empolgado
+     * 
+     * Contém 1 premium (jogo3 = 150)
+     * 
+     * 150 * 0.9 (Empolgado tem 10% de desconto) = 135
+     */
+    @Test
+    public void testEmpolgadoUmPremiumPrecoPago() {
+        compra.adicionarJogo(jogo3);
+
+        cliente1.adicionarCompra(compra);
+        compra.calcularPrecoPago(cliente1);
+        assertEquals(135, compra.getPrecoPago(), 0.1);
+    }
+
+    /**
+     * Cliente Fanático
+     * 
+     * Contém 1 premium (jogo3 = 150)
+     * 
+     * 150 * 0.7 (Fanático tem 30% de desconto) = 150
+     */
+    @Test
+    public void testFanaticoUmPremiumPrecoPago() {
+        compra.adicionarJogo(jogo3);
+
+        cliente2.adicionarCompra(compra);
+        compra.calcularPrecoPago(cliente2);
+        assertEquals(105, compra.getPrecoPago(), 0.1);
+    }
+
+    /**
+     * Cliente Cadastrado
+     * 
+     * Contém 4 regulares (Jogo1 = 100)
+     * 100 * 4 = 400
+     * 
+     * Contém quatro regulares(10% de desconto) = 400 * 0.9 = 360
+     */
+    @Test
+    public void testCadastradoQuatroRegularesPrecoPago() {
+        compra.adicionarJogo(jogo1);
+        compra.adicionarJogo(jogo1);
+        compra.adicionarJogo(jogo1);
+        compra.adicionarJogo(jogo1);
+
+        cliente3.adicionarCompra(compra);
+        compra.calcularPrecoPago(cliente3);
+        assertEquals(360, compra.getPrecoPago(), 0.1);
+    }
+
+    /**
+     * Cliente Empolgado
+     * 
+     * Contém 4 regulares (Jogo1 = 100)
+     * 100 * 4 = 400
+     * 
+     * Contém quatro regulares(10% de desconto) = 400 * 0.9 = 360
+     * 360 * 0.9 (Empolgado tem 10% de desconto) = 324
+     */
+    @Test
+    public void testEmpolgadoQuatroRegularesPrecoPago() {
+        compra.adicionarJogo(jogo1);
+        compra.adicionarJogo(jogo1);
+        compra.adicionarJogo(jogo1);
+        compra.adicionarJogo(jogo1);
+
+        cliente1.adicionarCompra(compra);
+        compra.calcularPrecoPago(cliente1);
+        assertEquals(324, compra.getPrecoPago(), 0.1);
+    }
+
+    /**
+     * Cliente Fanático
+     * 
+     * Contém 4 regulares (Jogo1 = 100)
+     * 100 * 4 = 400
+     * 
+     * Contém quatro regulares(10% de desconto) = 400 * 0.9 = 360
+     * 360 * 0.7 (Fanático tem 30% de desconto) = 252
+     */
+    @Test
+    public void testFanaticoQuatroRegularesPrecoPago() {
+        compra.adicionarJogo(jogo1);
+        compra.adicionarJogo(jogo1);
+        compra.adicionarJogo(jogo1);
+        compra.adicionarJogo(jogo1);
+
+        cliente2.adicionarCompra(compra);
+        compra.calcularPrecoPago(cliente2);
+        assertEquals(252, compra.getPrecoPago(), 0.1);
+    }
+
+    /**
+     * Cliente Cadastrado
+     * 
+     * Contém 2 premium (jogo3 = 150)
+     * 2 * 150 = 300
+     * 
+     * Contém dois premium(10% de desconto) = 300 * 0.9 = 270
+     */
+    @Test
+    public void testCadastradoDoisPremiumPrecoPago() {
+        compra.adicionarJogo(jogo3);
+        compra.adicionarJogo(jogo3);
+
+        cliente3.adicionarCompra(compra);
+        compra.calcularPrecoPago(cliente3);
+        assertEquals(270, compra.getPrecoPago(), 0.1);
+    }
+
+    /**
+     * Cliente Empolgado
+     * 
+     * Contém 2 premium (jogo3 = 150)
+     * 2 * 150 = 300
+     * 
+     * Contém dois premium(10% de desconto) = 300 * 0.9 = 270
+     * 270 * 0.9 (Empolgado tem 10% de desconto) = 243
+     */
+    @Test
+    public void testEmpolgadoDoisPremiumPrecoPago() {
+        compra.adicionarJogo(jogo3);
+        compra.adicionarJogo(jogo3);
+
+        cliente1.adicionarCompra(compra);
+        compra.calcularPrecoPago(cliente1);
+        assertEquals(243, compra.getPrecoPago(), 0.1);
+    }
+
+    /**
+     * Cliente Fanático
+     * 
+     * Contém 2 premium (jogo3 = 150)
+     * 2 * 150 = 300
+     * 
+     * Contém dois premium(10% de desconto) = 300 * 0.9 = 270
+     * 270 * 0.7 (Fanático tem 30% de desconto) = 189
+     */
+    @Test
+    public void testFanaticoDoisPremiumPrecoPago() {
+        compra.adicionarJogo(jogo3);
+        compra.adicionarJogo(jogo3);
+
+        cliente2.adicionarCompra(compra);
+        compra.calcularPrecoPago(cliente2);
+        assertEquals(189, compra.getPrecoPago(), 0.1);
+    }
+
+    /**
+     * Cliente Cadastrado
+     * 
+     * Contém 5 regulares (Jogo1 = 100)
+     * 100 * 5 = 500
+     * 
+     * Contém cinco regulares(20% de desconto) = 500 * 0.8 = 400
+     */
+    @Test
+    public void testCadastradoCincoRegularesPrecoPago() {
+        compra.adicionarJogo(jogo1);
+        compra.adicionarJogo(jogo1);
+        compra.adicionarJogo(jogo1);
+        compra.adicionarJogo(jogo1);
+        compra.adicionarJogo(jogo1);
+
+        cliente3.adicionarCompra(compra);
+        compra.calcularPrecoPago(cliente3);
+        assertEquals(400, compra.getPrecoPago(), 0.1);
+    }
+
+    /**
+     * Cliente Empolgado
+     * 
+     * Contém 5 regulares (Jogo1 = 100)
+     * 100 * 5 = 500
+     * 
+     * Contém quatro regulares(20% de desconto) = 500 * 0.8 = 400
+     * 400 * 0.9 (Empolgado tem 10% de desconto) = 360
+     */
+    @Test
+    public void testEmpolgadoCincoRegularesPrecoPago() {
+        compra.adicionarJogo(jogo1);
+        compra.adicionarJogo(jogo1);
+        compra.adicionarJogo(jogo1);
+        compra.adicionarJogo(jogo1);
+        compra.adicionarJogo(jogo1);
+
+        cliente1.adicionarCompra(compra);
+        compra.calcularPrecoPago(cliente1);
+        assertEquals(360, compra.getPrecoPago(), 0.1);
+    }
+
+    /**
+     * Cliente Fanático
+     * 
+     * Contém 5 regulares (Jogo1 = 100)
+     * 100 * 5 = 500
+     * 
+     * Contém quatro regulares(20% de desconto) = 500 * 0.8 = 400
+     * 400 * 0.7 (Fanático tem 30% de desconto) = 280
+     */
+    @Test
+    public void testFanaticoCincoRegularesPrecoPago() {
+        compra.adicionarJogo(jogo1);
+        compra.adicionarJogo(jogo1);
+        compra.adicionarJogo(jogo1);
+        compra.adicionarJogo(jogo1);
+        compra.adicionarJogo(jogo1);
+
+        cliente2.adicionarCompra(compra);
+        compra.calcularPrecoPago(cliente2);
+        assertEquals(280, compra.getPrecoPago(), 0.1);
+    }
+
+    // Terminar de testar com os demais...
+    /**
+     * Contém três regulares e um acima
+     * Contém três premium
+     * Contém dois premium e mais um jogo
+     * Contém dois ou mais lançamentos
+     */
+
+    /**
+     * 
+     * 
+     * 
+     * 
+     * 
+     * 
+     * 
+     * 
+     * 
+     * 
+     * 
+     */
+
+    // Testar valor das compras com os descontos denovo
+    // Validar quando altera o preço do jogo de acordo com a categoria
+    // Validar quando alterar a categoria e o preço do jogo
+    // Validar quando alterar o usuário
+    // Faz a compra e mudar a categoria do cliente
 }
