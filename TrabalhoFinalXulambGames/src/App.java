@@ -35,9 +35,10 @@ public class App {
         System.out.println("3 - Cadastrar Venda");
         System.out.println("4 - Valor Mensal Vendido(Mês atual)");
         System.out.println("5 - Valor Médio das Compras(Total)");
-        System.out.println("6 - Jogos Extremos(Mais vendido e Menos Vendido)");
+        System.out.println("6 - Jogos E-xtremos(Mais vendido e Menos Vendido)");
         System.out.println("7 - Histórico Cliente");
         System.out.println("8 - Alterar categoria e preço atual do Jogo");
+        System.out.println("9 - Alterar tipo do Cliente");
         System.out.println("0 - Sair");
         int opcao = 0;
         try {
@@ -227,10 +228,7 @@ public class App {
                     if (jogo != null) {
                         compra.adicionarJogo(jogo);
 
-                        // Isso é ruim(Fazer com stream utilizar sugestão do Hugo)
                         jogo.setQuantidadeVendaTotal(); // Aumenta número de vendas, para saber mais e menos vendidos
-                        xulambgames.removeTotalJogos(jogo.getNome());// Atualiza o objeto na lista de jogos
-                        xulambgames.addTotalJogos(jogo);
 
                         limparTela();
                         contadorJogos++;
@@ -401,7 +399,71 @@ public class App {
                 teclado.nextLine();
                 System.out.println("\033[1;31mSomente opções numéricas.");
             }
-            // xulambgames.addTotalVendas(compra);
+        } else
+            System.out.println("\033[1;31mCliente não encontrado!");
+    }
+
+    /**
+     * Método que altera o tipo do cliente
+     * 
+     * @param teclado     Scanner de leitura
+     * @param xulambgames Objeto do sistema global
+     */
+    public static void alterarCliente(Scanner teclado, Sistema xulambgames) {
+        ArrayList<Object> clientes = xulambgames.getTotalClientes();
+
+        System.out.println("Digite o nome do cliente: (Opções abaixo)");
+        clientes.forEach((c) -> System.out.println(c.toString()));
+
+        String nomeCliente = teclado.nextLine();
+        // Filtra o Arraylist de Clientes pelo nome e retorna o primeiro elemento
+        Cliente cliente = (Cliente) clientes.stream()
+                .filter((c) -> ((Cliente) c)
+                        .getNome()
+                        .equals(nomeCliente))
+                .findFirst()
+                .orElse(null);
+
+        if (cliente != null) {
+            limparTela();
+
+            // Altera o objeto com base no tipo de cliente
+            System.out.println("Selecione o tipo do cliente:");
+            System.out.println("=================================================");
+            System.out.println("1 - Empolgado");
+            System.out.println("2 - Fanático");
+            System.out.println("3 - Cadastrado");
+            try {
+                int tipoCliente = teclado.nextInt();
+                teclado.nextLine();
+                switch (tipoCliente) {
+                    case 1:
+                        // (Reflete apenas se mudar atributos, o objeto inteiro não)
+                        cliente = new Empolgado(cliente); // Não está refletindo...Quando muda o obojeto
+                        xulambgames.removeTotalClientes(cliente.getNome()); // Tive que remover e adicionar do array
+                        xulambgames.addTotalClientes(cliente); // Tive que remover e adicionar do array
+                        break;
+
+                    case 2:
+                        cliente = new Fanatico(cliente);
+                        xulambgames.removeTotalClientes(cliente.getNome());
+                        xulambgames.addTotalClientes(cliente);
+                        break;
+
+                    case 3:
+                        cliente = new Cadastrado(cliente);
+                        xulambgames.removeTotalClientes(cliente.getNome());
+                        xulambgames.addTotalClientes(cliente);
+                        break;
+
+                    default:
+                        System.out.println("\033[1;31mOpção inválida!");
+                        break;
+                }
+            } catch (InputMismatchException ex) {
+                teclado.nextLine();
+                System.out.println("\033[1;31mSomente opções numéricas.");
+            }
         } else
             System.out.println("\033[1;31mCliente não encontrado!");
     }
@@ -458,6 +520,9 @@ public class App {
                     break;
                 case 8:
                     alterarJogo(teclado, xulambgames);
+                    break;
+                case 9:
+                    alterarCliente(teclado, xulambgames);
                     break;
 
                 default:

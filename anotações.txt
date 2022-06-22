@@ -77,7 +77,7 @@ Fazer mudar categoria do Jogo / Mudar valorAtual do jogo(Quando muda a categoria
 
 Trocar tipo Objeto do sistema e corrigir/alterar o método salvarBinario
 
-Fazer jogo mais vendido e menos vendido com stream(sugestão Hugo) - Tirar atributo de jogo e ter que remover/salvar o objeto
+Fazer jogo mais vendido e menos vendido com stream(sugestão Hugo) - Tirar atributo de jogo
 
 Alterar/Validar o diagrama
 

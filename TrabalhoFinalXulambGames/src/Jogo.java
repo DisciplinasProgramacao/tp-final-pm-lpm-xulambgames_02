@@ -123,7 +123,8 @@ public class Jogo implements Serializable {
     @Override
     public String toString() {
         return "Nome: " + nome + " | Descrição: " + descricao + " | Preço Original: " + preco + " | Preço Atual: "
-                + precoAtual + " | Categoria: "
+                + precoAtual + " | Quantidade Vendas: "
+                + quantidadeVendaTotal + " | Categoria: "
                 + categoria.name(); // Debug + " | Quantidade Vendida: " + quantidadeVendaTotal
     }
 }

@@ -6,6 +6,10 @@ public class Fanatico extends Cliente implements IMensalidade {
         super(nome, nomeUsuario, senha, email);
     }
 
+    public Fanatico(Cliente cliente) {
+        super(cliente);
+    }
+
     public double calcularDesconto() {
         return this.desconto;
     }

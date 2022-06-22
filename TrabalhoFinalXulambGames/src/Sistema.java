@@ -165,16 +165,16 @@ public class Sistema {
     }
 
     // Remove
-    public void removeTotalJogos(String nomeJogo) {
-        Jogo jogoRemovido = null;
+    public void removeTotalClientes(String nomeCliente) {
+        Cliente clienteRemovido = null;
 
-        for (Object jogo : totalJogos) { // Outro jeito melhor de fazer isso?
-            if (((Jogo) jogo).getNome().equals(nomeJogo)) {
-                jogoRemovido = (Jogo) jogo;
+        for (Object cliente : totalClientes) { // Outro jeito melhor de fazer isso?
+            if (((Cliente) cliente).getNome().equals(nomeCliente)) {
+                clienteRemovido = (Cliente) cliente;
             }
         }
 
-        this.totalJogos.remove(jogoRemovido); // Remove o objeto
+        this.totalClientes.remove(clienteRemovido); // Remove o objeto
     }
 
     @Override

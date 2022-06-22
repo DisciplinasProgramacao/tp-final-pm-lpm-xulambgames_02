@@ -5,6 +5,10 @@ public class Cadastrado extends Cliente {
         super(nome, nomeUsuario, senha, email);
     }
 
+    public Cadastrado(Cliente cliente) {
+        super(cliente);
+    }
+
     public double calcularDesconto() {
         return this.desconto;
     }

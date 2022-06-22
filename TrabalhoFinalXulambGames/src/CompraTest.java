@@ -324,6 +324,20 @@ public class CompraTest {
         assertEquals(280, compra.getPrecoPago(), 0.1);
     }
 
+    @Test
+    public void teste() { // Criar teste para isso/Classe
+        Cliente cliente = new Empolgado("Joao", "joao2", "123", "joao@gmail.com");
+        System.out.println(cliente.toString());
+        System.out.println(cliente.calcularDesconto());
+        cliente = new Fanatico(cliente);
+        System.out.println(cliente.toString());
+        System.out.println(cliente.calcularDesconto());
+        cliente = new Cadastrado(cliente);
+        System.out.println(cliente.toString());
+        System.out.println(cliente.calcularDesconto());
+        // assertEquals(280, compra.getPrecoPago(), 0.1);
+    }
+
     // Terminar de testar com os demais...
     /**
      * Contém três regulares e um acima

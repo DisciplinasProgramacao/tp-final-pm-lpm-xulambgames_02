@@ -7,10 +7,10 @@ import java.util.stream.Collectors;
 
 public abstract class Cliente implements Serializable {
     private String nome;
-    private String nomeUsuario;
-    private String senha; // Não está sendo utilizado...
-    private String email; // Não está sendo utilizado...
-    private ArrayList<Compra> compras; // Olhar qual o melhor tipo de dados [], List, Arraylist, Map, Set...
+    public String nomeUsuario;
+    private String senha;
+    private String email;
+    private ArrayList<Compra> compras;
     static final long serialVersionUID = 123L; // Serialização
 
     public Cliente(String nome, String nomeUsuario, String senha, String email) {
@@ -26,7 +26,11 @@ public abstract class Cliente implements Serializable {
     // parâmetro(Decorator)
     public Cliente(Cliente cliente) { // Classe filha chama esse construtor
         // Fazer os atributos básicos serem os atributos serem os atributos de parâmetro
-        // this.nome = cliente.nome;
+        this.nome = cliente.nome;
+        this.nomeUsuario = cliente.nomeUsuario;
+        this.senha = cliente.senha;
+        this.email = cliente.email;
+        this.compras = cliente.compras;
 
         // Passar fanatico para empolgado - da um new Fanatico(empolgado) - Passa
         // empolgado como base (Fanatico vai copiar todos os parâmetros do cliente)
@@ -42,7 +46,7 @@ public abstract class Cliente implements Serializable {
     // Se for fazer com stream(Filtrar os jogos das compras e se a compra der
     // verdade eu filtro ela) - Stream cujo filtro é outro stream(Pegar uma stream
     // de compras e depois fazer flatmap para pegar todos os jogos das compras)
-    public void historicoCompras(Categoria categoria, String data) { // Testar com meses diferentes...
+    public void historicoCompras(Categoria categoria, String data) {
         ArrayList<Compra> comprasFiltradas = new ArrayList<Compra>();
         System.out.println("HISTÓRICO DE COMPRAS - " + this.nomeUsuario);
 

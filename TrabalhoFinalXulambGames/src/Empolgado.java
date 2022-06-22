@@ -6,6 +6,10 @@ public class Empolgado extends Cliente implements IMensalidade {
         super(nome, nomeUsuario, senha, email);
     }
 
+    public Empolgado(Cliente cliente) {
+        super(cliente);
+    }
+
     public double calcularDesconto() {
         return this.desconto;
     }
