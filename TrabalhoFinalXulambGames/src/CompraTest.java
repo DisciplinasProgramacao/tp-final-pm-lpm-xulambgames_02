@@ -325,7 +325,7 @@ public class CompraTest {
     }
 
     @Test
-    public void teste() { // Criar teste para isso/Classe
+    public void testeCliente() {
         Cliente cliente = new Empolgado("Joao", "joao2", "123", "joao@gmail.com");
         System.out.println(cliente.toString());
         System.out.println(cliente.calcularDesconto());
@@ -335,34 +335,6 @@ public class CompraTest {
         cliente = new Cadastrado(cliente);
         System.out.println(cliente.toString());
         System.out.println(cliente.calcularDesconto());
-        // assertEquals(280, compra.getPrecoPago(), 0.1);
+        assertEquals(0, cliente.calcularDesconto(), 0.1);
     }
-
-    // Terminar de testar com os demais...
-    /**
-     * Contém três regulares e um acima
-     * Contém três premium
-     * Contém dois premium e mais um jogo
-     * Contém dois ou mais lançamentos
-     */
-
-    /**
-     * 
-     * 
-     * 
-     * 
-     * 
-     * 
-     * 
-     * 
-     * 
-     * 
-     * 
-     */
-
-    // Testar valor das compras com os descontos denovo
-    // Validar quando altera o preço do jogo de acordo com a categoria
-    // Validar quando alterar a categoria e o preço do jogo
-    // Validar quando alterar o usuário
-    // Faz a compra e mudar a categoria do cliente
 }

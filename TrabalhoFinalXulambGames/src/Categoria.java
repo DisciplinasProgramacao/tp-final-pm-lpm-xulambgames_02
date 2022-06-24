@@ -1,5 +1,4 @@
-public enum Categoria { // Permitir alterar categoria e alterar o preço do jogo sem refletir no
-                        // resto(auto validar o estado)
+public enum Categoria {
     Lancamentos(3, 1.1, 1.1),
     Premium(2, 0, 0),
     Regulares(1, 0.7, 1),

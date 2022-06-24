@@ -10,7 +10,7 @@ import java.util.ArrayList;
 public class Sistema {
     private String nome;
     private String endereco;
-    private ArrayList<Object> totalVendas; // Como utilizar sem o Object
+    private ArrayList<Object> totalVendas;
     private ArrayList<Object> totalClientes;
     private ArrayList<Object> totalJogos;
 
@@ -83,8 +83,7 @@ public class Sistema {
      * @param frota Lista com os objetos
      * @param arq   Nome do arquivo a ser gerado
      */
-    public void salvarBinario(ArrayList<Object> lista, String arq) { // Utilizar sem o Object(Recebe uma lista<T> como
-                                                                     // parâmetro ou receber lista<Serializable>)
+    public void salvarBinario(ArrayList<Object> lista, String arq) {
         ObjectOutputStream saida = null;
         try {
             saida = new ObjectOutputStream(new FileOutputStream(arq));
@@ -100,13 +99,13 @@ public class Sistema {
     }
 
     /**
-     * Carrega os objetos de um arquivo serializado (Object)
+     * Carrega os objetos de um arquivo serializado (T)
      * 
      * @param arq Nome do arquivo de dados
      * @return Uma lista genérica com a classe do arquivo passado como parâmetro.
      *         A lista pode estar vazia ou nula em caso de exceções.
      */
-    public <T> ArrayList<T> carregarBinario(String arq) { // retornar arraylist<Serializable>
+    public <T> ArrayList<T> carregarBinario(String arq) {
         ArrayList<T> lista = null;
 
         try {
@@ -164,11 +163,11 @@ public class Sistema {
         this.totalJogos.add(jogo);
     }
 
-    // Remove
+    // Remove (Utilizado para atualiza lista de clientes quando o tipo é mudado)
     public void removeTotalClientes(String nomeCliente) {
         Cliente clienteRemovido = null;
 
-        for (Object cliente : totalClientes) { // Outro jeito melhor de fazer isso?
+        for (Object cliente : totalClientes) {
             if (((Cliente) cliente).getNome().equals(nomeCliente)) {
                 clienteRemovido = (Cliente) cliente;
             }

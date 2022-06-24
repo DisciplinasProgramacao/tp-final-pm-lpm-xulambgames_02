@@ -350,7 +350,7 @@ public class App {
                         .getNome()
                         .equals(nomeJogo))
                 .findFirst()
-                .orElse(null); // Altera a referência do jogo no arrayList global(verificar se funciona)
+                .orElse(null);
 
         if (jogo != null) {
             limparTela();

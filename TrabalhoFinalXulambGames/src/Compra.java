@@ -4,7 +4,7 @@ import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 
 public class Compra implements Serializable {
-    private ArrayList<Jogo> jogos; // Olhar qual o melhor tipo de dados [], List, Arraylist, Map, Set...
+    private ArrayList<Jogo> jogos;
     private double precoVenda = 0;
     private double precoPago = 0;
     private LocalDate dataCompra;
@@ -18,7 +18,6 @@ public class Compra implements Serializable {
     // Functions
     private double calcularDescontoJogos() {
         double totalCalculoBase = this.jogos.stream().mapToDouble((j) -> j.getCategoria().getValorCalculoBase()).sum();
-        System.out.println("Cálculo base Jogos: " + totalCalculoBase); // Debug
 
         if (totalCalculoBase > 4) {
             return 0.2;
@@ -33,6 +32,8 @@ public class Compra implements Serializable {
         /**
          * Calcula o novo precoVenda com os descontos(descontoJogosCategoria +
          * desconto do tipo de cliente)
+         * 
+         * #Precisa chamar esse método após finalizar a compra!#
          */
         double descontoCompra = this.precoVenda - this.precoVenda * this.calcularDescontoJogos(); // Calcula o desconto
                                                                                                   // da compra
@@ -41,6 +42,13 @@ public class Compra implements Serializable {
                                                                                        // após o desconto da compra
     }
 
+    /**
+     * Adiciona o preço do jogo na venda.
+     * 
+     * #Precisa chamar o método calcular preçoPago após finalizar a compra!#
+     * 
+     * @param jogo
+     */
     public void adicionarJogo(Jogo jogo) {
         this.jogos.add(jogo);
         /**

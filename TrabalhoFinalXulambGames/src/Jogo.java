@@ -13,8 +13,7 @@ public class Jogo implements Serializable {
         this.nome = nome;
         this.descricao = descricao;
         this.preco = preco;
-        this.precoAtual = preco; // Talvez pedir preçoAtual também na criação e válida com a categoria(Validar
-                                 // isso primeiro e barrar a criação do objeto?)
+        this.precoAtual = preco;
         this.categoria = categoria;
     }
 
@@ -28,7 +27,6 @@ public class Jogo implements Serializable {
         double pctDesconto = this.calculoPctDesconto(novoPreco); // Calcula a porcentagem que o novo preço representa do
                                                                  // preço original
 
-        // System.out.println(this.categoria.descontoValido(pctDesconto));
         // Verifica se o novo valor é válido para a categoria
         if (this.categoria.descontoValido(pctDesconto)) {
             return true;

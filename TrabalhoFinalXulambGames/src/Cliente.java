@@ -21,9 +21,7 @@ public abstract class Cliente implements Serializable {
         this.compras = new ArrayList<Compra>();
     }
 
-    /** Ideal é fazer uma fábrica */
-    // Criar um construtor de Cliente que recebe outro cliente como
-    // parâmetro(Decorator)
+    // Construtor de Cliente que recebe outro cliente
     public Cliente(Cliente cliente) { // Classe filha chama esse construtor
         // Fazer os atributos básicos serem os atributos serem os atributos de parâmetro
         this.nome = cliente.nome;
@@ -32,7 +30,7 @@ public abstract class Cliente implements Serializable {
         this.email = cliente.email;
         this.compras = cliente.compras;
 
-        // Passar fanatico para empolgado - da um new Fanatico(empolgado) - Passa
+        // Ex: Passar fanatico para empolgado - da um new Fanatico(empolgado) - Passa
         // empolgado como base (Fanatico vai copiar todos os parâmetros do cliente)
     }
 
@@ -43,16 +41,13 @@ public abstract class Cliente implements Serializable {
 
     // Functions
 
-    // Se for fazer com stream(Filtrar os jogos das compras e se a compra der
-    // verdade eu filtro ela) - Stream cujo filtro é outro stream(Pegar uma stream
-    // de compras e depois fazer flatmap para pegar todos os jogos das compras)
     public void historicoCompras(Categoria categoria, String data) {
         ArrayList<Compra> comprasFiltradas = new ArrayList<Compra>();
         System.out.println("HISTÓRICO DE COMPRAS - " + this.nomeUsuario);
 
         if (data == null) {
             // Verifica se a compra possui jogos com a categoria filtrada
-            for (Compra compra : this.compras) {// flatmap
+            for (Compra compra : this.compras) {
                 for (Jogo jogo : compra.getJogos()) {
                     if (jogo.getCategoria().equals(categoria)) {
                         comprasFiltradas.add(compra);

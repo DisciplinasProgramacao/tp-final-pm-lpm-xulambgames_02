@@ -18,8 +18,6 @@ public class JogoTest {
         jogo4 = new Jogo("Jogo4", "Jogo4 é brabo", 100.00, Categoria.Promocoes);
     }
 
-    // Validar quando alterar o usuário
-
     // #region Testes Valor Nova Compra(Preço pago e Preço venda)
 
     /**
